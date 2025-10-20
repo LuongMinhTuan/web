@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Van Anh</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Nunito',sans-serif;
+      height:100vh;
+      background: radial-gradient(circle at 20% 10%, #ffeef7 0%, #ffdff0 20%, #ffc6e8 45%, #ffd7ee 60%, #fff0f7 100%);
+      display:flex;align-items:center;justify-content:center;overflow:hidden;
+    }
+    .stage{
+      width:min(980px,95%);
+      background:rgba(255,255,255,0.85);
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(255,90,180,0.12);
+      padding:36px;text-align:center;position:relative;overflow:hidden;
+    }
+    h1{
+      font-family:'Sacramento',cursive;
+      font-size:clamp(28px,6vw,56px);
+      color:#ff2d95;
+    }
+    p{color:#9b3a6b;margin:8px 0}
+    .photo img{width:240px;border-radius:14px;margin:20px 0;box-shadow:0 6px 18px rgba(0,0,0,0.1)}
+    .controls{display:flex;justify-content:center;gap:10px;margin-top:20px}
+    .btn{background:linear-gradient(180deg,#ff2d95,#ff5cb3);color:white;padding:10px 14px;border:none;border-radius:12px;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;color:#ff2d95;border:2px solid rgba(255,45,149,0.2)}
+    .hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .heart{position:absolute;top:-10%;left:50%;width:36px;height:36px;opacity:0}
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="hearts" id="hearts"></div>
+    <h1>Chúc cậu dth 1 ngày 20/10 vui vẻ, hạnh phúc và luôn luôn tươi cười nhé :>></h1>
+    <p>Gửi cậu 1 ít sự dth cho ngày hnayy</p>
+    <div class="photo"><img src="https://mcdn.coolmate.me/image/July2023/meme-meo-cuoi-nhech-mep-2124_781.jpg" alt="Ảnh mèo" /></div>
+    <div class="controls">
+      <button class="btn" id="toggleHearts">stop heart</button>
+      <button class="btn" id="gotoPage">Sang web khácc nò</button>
+    </div>
+  </div>
+
+  <script>
+    const heartsContainer = document.getElementById("hearts");
+    const rand = (a,b)=>Math.random()*(b-a)+a;
+    const heartSVG = color => `<svg viewBox="0 0 32 29.6"><path fill="${color}" d="M23.6 0c-2.9 0-5.4 1.7-6.6 4.2C15.8 1.7 13.4 0 10.5 0 4.7 0 0 4.7 0 10.5c0 8.7 16 19.1 16 19.1s16-10.4 16-19.1C32 4.7 27.3 0 23.6 0z"/></svg>`;
+    let running = true;
+    function makeHeart(){
+      const el = document.createElement("div");
+      el.className="heart";
+      const size=rand(18,56), left=rand(5,95), dur=rand(4000,8500), spin=rand(-40,40), scale=rand(0.7,1.2);
+      const colors=["#ff6aa7","#ff3e9e","#ff8ecf","#ff4d8b","#ff2d95"];
+      const color=colors[Math.floor(rand(0,colors.length))];
+      el.style.left=left+"%"; el.style.width=size+"px"; el.innerHTML=heartSVG(color);
+      const anim=el.animate([
+        {transform:`translateY(-10vh) scale(${scale})`,opacity:0},
+        {transform:`translateY(${rand(80,100)}vh) rotate(${spin}deg)`,opacity:1}
+      ],{duration:dur,easing:"cubic-bezier(.3,.6,.4,1)"});
+      anim.onfinish=()=>el.remove();
+      heartsContainer.appendChild(el);
+    }
+    setInterval(()=>{if(running) makeHeart();},300);
+    document.getElementById("toggleHearts").onclick=()=>{
+      running=!running;
+      const btn=document.getElementById("toggleHearts");
+      btn.textContent=running?"Tắt tim":"Bật tim";
+      btn.classList.toggle("ghost",!running);
+    };
+
+    document.getElementById("gotoPage").onclick=()=>{
+      const newPage = `
+        <html><head><meta charset="UTF-8"><title>Van Anh Dth</title>
+        <style>
+          body{font-family:'Nunito',sans-serif;background:#ffe6f2;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
+          h1{color:#d63384;font-family:'Sacramento',cursive;font-size:52px;}
+          p{color:#a14a7a;font-weight:600}
+          img{border-radius:16px;margin-top:20px;max-width:80%;box-shadow:0 4px 16px rgba(0,0,0,0.1);}
+          .hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+          .heart{position:absolute;top:-10%;left:50%;width:36px;height:36px;opacity:0;}
+        </style></head>
+        <body>
+          <div class="hearts" id="hearts"></div>
+          <div>
+            <h1>Cậu là người đáng yêu nhất :3</h1>
+            <p>Chúc cậu luôn nở nụ cười trên môi nhó, ít buồn thoai</p>
+            <img src="https://sf-static.upanhlaylink.com/img/image_202510201dee667a8b45c0bc50fed45f949c56c5.jpg" alt="Uoc gi duoc nhu nay:))"/>
+          </div>
+          <script>
+            const rand=(a,b)=>Math.random()*(b-a)+a;
+            const hearts=document.getElementById("hearts");
+            const heartSVG=color=>'<svg viewBox="0 0 32 29.6"><path fill="'+color+'" d="M23.6 0c-2.9 0-5.4 1.7-6.6 4.2C15.8 1.7 13.4 0 10.5 0 4.7 0 0 4.7 0 10.5c0 8.7 16 19.1 16 19.1s16-10.4 16-19.1C32 4.7 27.3 0 23.6 0z"/></svg>';
+            function makeHeart(){
+              const el=document.createElement("div");el.className="heart";
+              const size=rand(18,56),left=rand(5,95),dur=rand(4000,8500),spin=rand(-40,40),scale=rand(0.7,1.2);
+              const colors=["#ff6aa7","#ff3e9e","#ff8ecf","#ff4d8b","#ff2d95"];
+              const color=colors[Math.floor(rand(0,colors.length))];
+              el.style.left=left+"%";el.style.width=size+"px";el.innerHTML=heartSVG(color);
+              const anim=el.animate([
+                {transform:"translateY(-10vh) scale("+scale+")",opacity:0},
+                {transform:"translateY("+rand(80,100)+"vh) rotate("+spin+"deg)",opacity:1}
+              ],{duration:dur,easing:"cubic-bezier(.3,.6,.4,1)"});
+              anim.onfinish=()=>el.remove();
+              hearts.appendChild(el);
+            }
+            setInterval(()=>makeHeart(),300);
+          <\/script>
+        </body></html>`;
+      const blob=new Blob([newPage],{type:"text/html"});
+      window.location.href=URL.createObjectURL(blob);
+    };
+  </script>
+</body>
+</html>
